@@ -97,4 +97,3 @@ function zerar() {
     clearInterval(intervaloID);
     intervaloID = null;
 }
-
