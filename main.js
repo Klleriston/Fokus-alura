@@ -71,7 +71,6 @@ function ContagemRegressiva() {
         alert('Contagem finalizada !')
         zerar()
     }
-    iniciarOuPausar()
     ContagemTemporizador -= 1;
 }
 
@@ -89,5 +88,3 @@ function zerar() {
     clearInterval(intervaloID);
     intervaloID = null
 }
-
-//colocar sons para pausar iniciar e parar.
