@@ -12,7 +12,11 @@ musica.loop = true;
 
 let ContagemTemporizador = 5;
 const botaoPlay = document.querySelector('#start-pause');
-const intervaloID = null;
+let intervaloID = null;
+
+const musicaPlay = new Audio('/sons/play.wav');
+const musicaPause = new Audio('/sons/pause.mp3');
+const musicaFim = new Audio('/sons/beep.mp3');
 
 musicaFocoInput.addEventListener('change', () => {
     if (musica.paused) {
@@ -66,25 +70,31 @@ function alteraContexto(contexto) {
     }
 }
 
-function ContagemRegressiva() {
-    if (ContagemRegressiva = 0) {
-        alert('Contagem finalizada !')
-        zerar()
+const ContagemRegressiva = () => {
+    if (ContagemTemporizador <= 0) {
+        musicaFim.play();
+        alert('Contagem finalizada !');
+        zerar();
+        return
     }
+
     ContagemTemporizador -= 1;
 }
 
-botaoPlay.addEventListener('click', ContagemRegressiva())
+botaoPlay.addEventListener('click', iniciarOuPausar);
 
 function iniciarOuPausar() {
-    if (intervaloID) {
-        zerar()
+    if(intervaloID){
+        musicaPause.play();
+        zerar();
         return
     }
-    intervaloID = setInterval(ContagemRegressiva(), 1000)
+    musicaPlay.play();
+    intervaloID = setInterval(ContagemRegressiva, 1000);
 }
 
 function zerar() {
     clearInterval(intervaloID);
-    intervaloID = null
+    intervaloID = null;
 }
+
