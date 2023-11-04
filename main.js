@@ -104,5 +104,4 @@ function zerar() {
     intervaloID = null;
 }
 
-
 mostrarTempo();
