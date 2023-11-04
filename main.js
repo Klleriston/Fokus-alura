@@ -6,11 +6,14 @@ const banner = document.querySelector('.app__image  ');
 const titulo = document.querySelector('.app__title');
 const botoes = document.querySelectorAll('.app__card-button');
 const musicaFocoInput =  document.querySelector('#alternar-musica');
+const btnComecar = document.querySelector('#start-pause span');
+const imgBtnComecar = document.querySelector('#start-pause img');
+const tempoNaTela = document.querySelector('#timer');
 
 const musica = new Audio('/sons/luna-rise-part-one.mp3');
 musica.loop = true;
 
-let ContagemTemporizador = 5;
+let ContagemTemporizador = 1500;
 const botaoPlay = document.querySelector('#start-pause');
 let intervaloID = null;
 
@@ -28,22 +31,25 @@ musicaFocoInput.addEventListener('change', () => {
 
 //adicionar evento click  ->  (arrow function para atribuir um elemento na tag(HTML))
 focoBT.addEventListener('click', () => {
+    ContagemTemporizador = 1500;
     alteraContexto('foco')
     focoBT.classList.add('active')
 })
 
 curtoBT.addEventListener('click', () => {
+    ContagemTemporizador = 300;
     alteraContexto('descanso-curto')
     curtoBT.classList.add('active')
 })
 
 longoBT.addEventListener('click', () => {
+    ContagemTemporizador = 900;
     alteraContexto('descanso-longo')
     longoBT.classList.add('active')
 })
 
 function alteraContexto(contexto) {
-
+    mostrarTempo();    
     //remover dinamicamente os botao de ativo quando passar por cada um. 
     botoes.forEach(function (contexto) {
         contexto.classList.remove('active')
@@ -77,8 +83,9 @@ const ContagemRegressiva = () => {
         zerar();
         return
     }
-
+    
     ContagemTemporizador -= 1;
+    mostrarTempo()
 }
 
 botaoPlay.addEventListener('click', iniciarOuPausar);
@@ -86,15 +93,27 @@ botaoPlay.addEventListener('click', iniciarOuPausar);
 function iniciarOuPausar() {
     if(intervaloID){
         musicaPause.play();
+        imgBtnComecar.src = '/imagens/play_arrow.png';
         zerar();
         return
     }
     musicaPlay.play();
+    btnComecar.textContent = 'Pausar'
+    imgBtnComecar.src = '/imagens/pause.png';
     intervaloID = setInterval(ContagemRegressiva, 1000);
 }
 
 function zerar() {
     clearInterval(intervaloID);
+    btnComecar.textContent = 'Começar'
+    imgBtnComecar.src = '/imagens/play_arrow.png';
     intervaloID = null;
 }
 
+function mostrarTempo () {
+    const tempo = new Date(ContagemTemporizador * 1000);
+    const tempoFormatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'})
+    tempoNaTela.innerHTML = `${tempoFormatado}`
+}
+
+mostrarTempo();
